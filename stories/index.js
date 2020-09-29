@@ -6,7 +6,7 @@ import "index.scss";
 import DayListItem from "../src/components/DayListItem";
 import Button from "../src/components/Button";
 import DayList from "../src/components/DayList";
-import Form from "../src/components/Form";
+//import Form from "../src/components/Form";
 import InterviewerList from "../src/components/InterviewerList";
 import InterviewerListItem from "../src/components/InterviewerListItem";
 
@@ -39,7 +39,7 @@ storiesOf("Button", module)
   .add("Selected", () => <DayListItem selected name="Monday" spots={5} />) 
   .add("Full", () => <DayListItem name="Monday" spots={0} />)
   .add("Clickable", () => (
-    <DayListItem name="Tuesday" onClick={action("button-clicked")} setDay={action("setDay")} spots={0} /> // action() allows us to create a callback that appears in the actions panel when clicked
+    <DayListItem name="Tuesday" onClick={action("button-clicked")} setDay={event => action("setDay")(day.id)} spots={0} /> // action() allows us to create a callback that appears in the actions panel when clicked
   ));
 
 
@@ -67,10 +67,10 @@ storiesOf("Button", module)
       backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
     })
     .add("Monday", () => (
-      <DayList days={days} day={"Monday"} setDay={action("setDay")} />
+      <DayList days={days} day={"Monday"} setDay={event => action("setDay")(day.id)} />
     ))
     .add("Tuesday", () => (
-      <DayList days={days} day={"Tuesday"} setDay={action("setDay")} />
+      <DayList days={days} day={"Tuesday"} setDay={event => action("setDay")(day.id)}/>
     ));
 
 
@@ -104,7 +104,7 @@ storiesOf("Button", module)
           id={interviewer.id}
           name={interviewer.name}
           avatar={interviewer.avatar}
-          setInterviewer={action("setInterviewer")}
+          setInterviewer={event => action("setInterviewer")(interviewer.id)}
         />
       ));
 
