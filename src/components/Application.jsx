@@ -1,9 +1,61 @@
 import React, {useState} from "react";
 import "components/Application.scss";
-//import classNames from "classnames";
-//import DayListItem from "components/DayListItem";
-//import Button from "components/Button"
 import DayList from "components/DayList";
+import Appointment from "components/Appointment"
+
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png"
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "2pm",
+    interview: {
+      student: "Lisa Hermiston",
+      interviewer: { 
+        id: 2, 
+        name: "Tori Malcolm", 
+        avatar: "https://i.imgur.com/Nmx0Qxo.png" 
+      }
+    }
+  },
+  {
+    id: 4,
+    time: "1pm",
+    interview: {
+      student: "Luke Faggiolo",
+      interviewer:{ 
+        id: 3, 
+        name: "Mildred Nazir", 
+        avatar: "https://i.imgur.com/T2WwVfS.png" 
+      }
+    }
+  },
+  {
+    id: 5,
+    time: "1pm",
+    interview: {
+      student: "Carla Szabo",
+      interviewer: { 
+        id: 5, 
+        name: "Sven Jones", 
+        avatar: "https://i.imgur.com/twYrpay.jpg" } 
+    }
+  }
+];
 
 const days = [
   {
@@ -23,44 +75,7 @@ const days = [
   },
 ];
 
-// function DayListItem(props) {
-  
-//   const dayClass = classNames("day-list__item", {
-//       "day-list__item--selected" : props.selected,
-//       "day-list__item--full" : !props.spots
-//   }); 
-  
-//   const formatSpots = (spots) => {
-//     return (spots > 1 ?  spots + " spots remaining" : "1 spot remaining");
-//   }
-  
-//   return (
-//     <li 
-//       className={dayClass}
-//       onClick={() => props.setDay(props.name)}
-//     >
-//       <h2 className="text--regular">{props.name}</h2>
-//       <h3 className="text--light">{!props.spots ?  "no spots remaining" : formatSpots(props.spots)}</h3>
-//     </li>
-//   );
-// }
 
-// function DayList(props) {
-
-//   const daylist = days.map( day => {
-//       return (
-//         <ul onClick={() => props.setDay(day.name)}>
-//           <DayListItem
-//             key={day.id}
-//             name={day.name}
-//             spots={day.spots}
-//             selected={day.name === props.day}
-//             setDay={props.setday} />
-//         </ul>  
-//       );
-//   });
-//   return daylist;
-// };
 
 
 export default function Application(props) {
@@ -89,7 +104,18 @@ export default function Application(props) {
       />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {appointments.map(appointment => {
+          return (
+            <li>
+            <Appointment
+            key={appointment.id}
+            time={appointment.time}
+            interview={appointment.interview}
+             />
+            </li>
+          )
+        })}
+        <Appointment key="last" time="5pm" />
       </section>
     </main>
     
