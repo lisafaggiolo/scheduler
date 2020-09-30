@@ -4,10 +4,6 @@ import InterviewerList from "../InterviewerList";
 import Button from "../Button";
 
 
-
-
-
-
 export default function Form(props) { 
   
   const [name, setName] = useState(props.name || "" );
@@ -22,7 +18,7 @@ export default function Form(props) {
     });
   }
   
- 
+  
     return (
         <main className="appointment__card appointment__card--create">
           <section className="appointment__card-left">
