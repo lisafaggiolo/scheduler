@@ -15,6 +15,7 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const CONFIRM = "CONFIRM";
 const SAVING = "SAVING"
+const DELETING = "DELETING"
 
 export default function Appointment(props) {
 
@@ -28,17 +29,13 @@ export default function Appointment(props) {
       student: name,
       interviewer
     }
-    console.log(interview);
-    console.log(props.id)
-    console.log(props.bookInterview)
     transition(SAVING);
-
     props.bookInterview(props.id, interview).then(() => transition(SHOW));
   };
 
   
   const appDelete = () => {
-
+    transition(DELETING)
     props.cancelInterview(props.id).then(() => transition(EMPTY)); 
   }
 
@@ -66,7 +63,8 @@ export default function Appointment(props) {
                                      message="ok this works"
                                      onCancel={() => back() } 
                                      onConfirm={save}/>)}
-            {mode === SAVING && (<Status message='Please hold' />)}
+            {mode === SAVING && (<Status message='Saving' />)}
+            {mode === DELETING && (<Status message='Deleting' />)}
       </article>
   );
 };
