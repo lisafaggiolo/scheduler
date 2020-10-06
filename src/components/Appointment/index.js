@@ -20,6 +20,8 @@ const DELETING = "DELETING";
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE"
 const ERROR_DELETE = "ERROR_DELETE"
+
+
 export default function Appointment(props) {
 
   const { mode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY)
@@ -75,21 +77,21 @@ export default function Appointment(props) {
                                     onCancel={() => transition(SHOW, true)}  
                                     onSave={save} 
                                     />)}
-            {mode === CONFIRM && (<Confirm 
-                                    bookInterview={props.bookInterview}
-                                    message="Are you sure you want to remove this appointment?"
-                                    onCancel={() => back() } 
-                                    onConfirm={appDelete}/>)}
             {mode === SAVING && (<Status 
                                     message='Saving' 
                                     />)}
             {mode === ERROR_SAVE && (<Error 
                                     message='Sorry, an error occured while trying to save your appointment'
-                                    onCancel={() => transition(EMPTY, true)} 
+                                    onCancel={() => transition(SHOW, true)} 
                                     />)}
             {mode === DELETING && (<Status 
                                     message='Deleting' 
                                     />)}
+            {mode === CONFIRM && (<Confirm 
+                                    bookInterview={props.bookInterview}
+                                    message="Are you sure you want to remove this appointment?"
+                                    onCancel={() => back() } 
+                                    onConfirm={appDelete}/>)}
             {mode === ERROR_DELETE && (<Error 
                                     message='Sorry, an error occured while trying to delete your appointment'
                                     onCancel={() => transition(SHOW, true)} 
