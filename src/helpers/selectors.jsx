@@ -6,7 +6,20 @@ const getAppointmentsForDay = (state, day) => {
     return targetDay.length === 0 ? [] : targetDay[0].appointments.map(appointmentId => state.appointments[appointmentId])
 };
 exports.getAppointmentsForDay = getAppointmentsForDay;
+
   
+const getInterviewersForDay = (state, day) => {
+  
+
+  const targetDay = state.days.filter(dayInfo => dayInfo.name === day);
+  
+  return targetDay.length === 0 ? [] : targetDay[0].interviewers.map(interviewerId => state.interviewers[interviewerId])
+
+};
+exports.getInterviewersForDay = getInterviewersForDay;
+
+
+
 
 const  getInterview = (state, interview) => {
 

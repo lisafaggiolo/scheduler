@@ -4,7 +4,7 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment"
 import axios from "axios";
 
-import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
   
 
 export default function Application(props) {
@@ -12,64 +12,13 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: [
-      {
-        id: 1,
-        time: "12pm",
-      },
-      {
-        id: 2,
-        time: "1pm",
-        interview: {
-          student: "Lydia Miller-Jones",
-          interviewer: {
-            id: 1,
-            name: "Sylvia Palmer",
-            avatar: "https: i.imgur.com/LpaY82x.png"
-          }
-        }
-      },
-      {
-        id: 3,
-        time: "2pm",
-        interview: {
-          student: "Lisa Hermiston",
-          interviewer: { 
-            id: 2, 
-            name: "Tori Malcolm", 
-            avatar: "https: i.imgur.com/Nmx0Qxo.png" 
-          }
-        }
-      },
-      {
-        id: 4,
-        time: "1pm",
-        interview: {
-          student: "Luke Faggiolo",
-          interviewer:{ 
-            id: 3, 
-            name: "Mildred Nazir", 
-            avatar: "https: i.imgur.com/T2WwVfS.png" 
-          }
-        }
-      },
-      {
-        id: 5,
-        time: "1pm",
-        interview: {
-          student: "Carla Szabo",
-          interviewer: { 
-            id: 5, 
-            name: "Sven Jones", 
-            avatar: "https: i.imgur.com/twYrpay.jpg" } 
-        }
-      }
-    ],
+    appointments: [],
     interviewers: []
   });
 
   const setDay = day => setState({ ...state, day });
- 
+  //const setInterviewers = interviewer => setInterviewers ({...state})
+
   useEffect(() => {
     Promise.all([
       axios.get("http://localhost:8001/api/days"),//.then(response => setDays(response.data))),
@@ -82,7 +31,51 @@ export default function Application(props) {
   }, []); 
   
   const dailyAppointments = getAppointmentsForDay(state, state.day);
- 
+
+                     
+  const bookInterview = (id, interview) => {
+    
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    }
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, appointment)
+    .then(response =>
+      setState({
+      ...state,
+      appointments
+    }))
+  }
+
+   const cancelInterview = (id) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    }
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    const interview = null;
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(response =>
+      setState({
+      ...state,
+      appointments
+    }))
+
+   }
+
+  
+  //console.log(interviewersForDay);
+ //interviewers={interviewers}
   //const interview = getInterview(state, appointment.interview);
   
   return (
@@ -111,6 +104,8 @@ export default function Application(props) {
 
         {dailyAppointments.map(appointment => {
           const interview = getInterview(state, appointment.interview)
+          const interviewersForDay = getInterviewersForDay(state, state.day)
+          
           return (
             <li 
               key={appointment.id}>
@@ -118,6 +113,9 @@ export default function Application(props) {
               id={appointment.id}
               time={appointment.time}
               interview={interview}
+              interviewers={interviewersForDay}
+              bookInterview={bookInterview}
+              cancelInterview={cancelInterview}
             />
             </li>)
         })}

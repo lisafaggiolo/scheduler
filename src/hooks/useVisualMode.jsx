@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function useVisualMode(initial) {
+const useVisualMode = (initial) => {
     const [mode, setMode] = useState(initial);
     const [history, setHistory] = useState([initial]);
     
@@ -12,16 +12,9 @@ function useVisualMode(initial) {
     }
          
     function transition(next, replace = false) { 
-       if (replace) {
-         setMode([initial]) 
-       } else {
-         history.push(next); 
-         setMode(next);
-       }
-      
-      //  replace ? setMode([initial]) : 
-      //    history.push(next) 
-      //    setMode(next); 
+      replace ? setMode([initial]) : 
+         history.push(next)
+         setMode(next); 
     }
     return { mode, transition, back };
 }
