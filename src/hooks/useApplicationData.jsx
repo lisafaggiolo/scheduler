@@ -24,10 +24,36 @@ const useApplicationData = () => {
         interviewers: []
       });
 
+
+
   const setDay = day => setState({ ...state, day });
 
-  const bookInterview = (id, interview) => {
+
+
+
+  const getSpots = (appointments) => {
+
+    const currentDay = state.days.find(eachday => eachday.name === state.day)
+    const nullAppointments = currentDay.appointments.map(appId => appointments[appId]).filter(appointment => appointment.interview === null)
+    const spotsNum = nullAppointments.length
     
+    const days = state.days.map(eachDay => {
+      if (eachDay.id === currentDay.id) {
+        eachDay.spots = spotsNum
+      } 
+      return eachDay;
+    })
+
+    return days;
+  }
+
+
+
+
+
+
+  const bookInterview = (id, interview) => {
+    console.log("BOOK INTERVIEW")
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -37,32 +63,43 @@ const useApplicationData = () => {
       ...state.appointments,
       [id]: appointment
     };
+    
 
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
-    .then(response =>
-      setState({
-      ...state,
-      appointments
-    }))
+
+    const days = getSpots(appointments)
+
+    const bookApp = axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(response => setState({ ...state, appointments, days }))
+
+    return bookApp;
+    
   }
 
    const cancelInterview = (id) => {
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
+     const appointment = {
+       ...state.appointments[id],
+       interview: null
     }
     
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
+    
     const interview = null;
-    return axios.delete(`http://localhost:8001/api/appointments/${id}`, {interview})
+    const days = getSpots(appointments)
+
+    const deleteApp = axios.delete(`http://localhost:8001/api/appointments/${id}`, {interview})
     .then(response =>
       setState({
       ...state,
-      appointments
+      appointments, 
+      days  
     }))
+    
+ 
+
+    return deleteApp;
    }
 
    return { state, setDay, bookInterview, cancelInterview }

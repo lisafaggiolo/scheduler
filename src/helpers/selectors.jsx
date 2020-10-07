@@ -19,8 +19,6 @@ const getInterviewersForDay = (state, day) => {
 exports.getInterviewersForDay = getInterviewersForDay;
 
 
-
-
 const  getInterview = (state, interview) => {
 
     if (interview === null) {
