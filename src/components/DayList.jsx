@@ -6,8 +6,7 @@ export default function DayList(props) {
     const daylist = props.days.map((day) => {
         return (
           <ul
-          key={day.id} 
-          // onClick={() => props.setDay}
+          key={day.id}
           >
             <DayListItem
               name={day.name}
