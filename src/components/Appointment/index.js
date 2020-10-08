@@ -90,7 +90,7 @@ export default function Appointment(props) {
             {mode === CONFIRM && (<Confirm 
                                     bookInterview={props.bookInterview}
                                     message="Are you sure you want to remove this appointment?"
-                                    onCancel={() => back() } 
+                                    onCancel={() =>  transition(SHOW, true) } 
                                     onConfirm={appDelete}/>)}
             {mode === ERROR_DELETE && (<Error 
                                     message='Sorry, an error occured while trying to delete your appointment'

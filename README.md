@@ -1,5 +1,5 @@
 # Interview Scheduler
-
+Interwiew Scheduler is my very first try at building a single page app using React! It allows users to book interviews for potential students and select one of the available interviewers for that day!
 ## Setup
 
 Install dependencies with `npm install`.
