@@ -30,6 +30,7 @@ export default function Appointment(props) {
 /////////////////////////////////////////////////
   const save = (name, interviewer) => {
     
+    
     const interview = {
       student: name,
       interviewer
@@ -40,7 +41,9 @@ export default function Appointment(props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch((error) => transition(ERROR_SAVE, true));
-  };
+  
+    };
+  
 
 /////////////////////////////////////////////////  
   const appDelete = () => {
@@ -83,7 +86,7 @@ export default function Appointment(props) {
                                     />)}
             {mode === ERROR_SAVE && (<Error 
                                     message='Sorry, an error occured while trying to save your appointment'
-                                    onCancel={() => transition(SHOW, true)} 
+                                    onCancel={() => transition(EMPTY, true)} 
                                     />)}
             {mode === DELETING && (<Status 
                                     message='Deleting' 
