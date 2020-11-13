@@ -39,4 +39,4 @@ const  getInterview = (state, interview) => {
     }
     }    
 };
-exports.getInterview = getInterview
+exports.getInterview = getInterview;

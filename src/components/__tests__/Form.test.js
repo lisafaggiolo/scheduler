@@ -6,7 +6,7 @@ import { fireEvent } from "@testing-library/react";
 afterEach(cleanup);
 
 describe("Form", () => {
-  const interviewers = [
+  const interviewers = [ 
     {
       id: 1,
       name: "Sylvia Palmer",
@@ -18,13 +18,13 @@ describe("Form", () => {
     render(<Form interviewers={interviewers}/>);
   });
 
-  it("renders without student name if not provided", () => {
-    const { getByPlaceholderText } =  render(<Form interviewers={interviewers}/>);
+  it.only("renders without student name if not provided", () => {
+    const { getByPlaceholderText } = render(<Form interviewers={interviewers} student=""/> );
     expect(getByPlaceholderText("Enter Student Name")).toHaveValue("");
   });
 
   it("renders with initial student name", () => {
-    const { getByTestId } =  render(<Form interviewers={interviewers} student="Lydia Miller-Jones"/>);
+    const { getByTestId } = render(<Form interviewers={interviewers} student="Lydia Miller-Jones"/>);
     expect(getByTestId("student-name-input")).toHaveValue("Lydia Miller-Jones");
   });
 
